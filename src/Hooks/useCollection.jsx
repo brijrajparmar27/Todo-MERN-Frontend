@@ -2,7 +2,6 @@ import API from "../Axios/Axios";
 const useCollection = (setTodos) => {
     const fetchTodos = () => {
         API.get("/todo/").then((data) => {
-            // console.log(data.data);
             setTodos(data.data)
         })
     }

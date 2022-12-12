@@ -4,6 +4,9 @@ import { BsFillFolderFill, BsFillCheckCircleFill, BsCircle, BsXLg } from "react-
 import useCollection from "../../Hooks/useCollection";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
+import useAuthContext from "../../Hooks/useAuthContext";
+import { useNavigate } from "react-router-dom";
+import useUserAuth from "../../Hooks/useUserAuth";
 
 const Home = () => {
 
@@ -15,10 +18,20 @@ const Home = () => {
     const DateTime = new Date();
 
     const { fetchTodos, createTodo, toogleTodo, deleteTodo } = useCollection(setTodos);
+    const { logout } = useUserAuth();
+    const { user } = useAuthContext();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchTodos()
     }, [])
+
+    useEffect(() => {
+        if (!user) {
+            navigate("/auth");
+        }
+    }, [user])
 
     useEffect(() => {
         todos && setPending(todos.filter(each => {
@@ -46,7 +59,7 @@ const Home = () => {
                 `linear-gradient(45deg,#005858a9,#00ff8c91), url(${hills})`
         }}>
             <div className="header_contents">
-                <div className="left_header_content">
+                <div className="left_header_content" onClick={logout}>
                     <h1>TOD<BsFillCheckCircleFill style={{ fontSize: "23px", marginLeft: "2px" }} /></h1>
                     <div className="collection">
                         <p>default</p>
@@ -65,7 +78,7 @@ const Home = () => {
                     <input type="text" className="todo_tb" placeholder="Type to add a new Task..." onChange={(e) => { setNewTodo(e.target.value) }} />
                 </form>
                 <hr className="todo_partition" />
-                {todos && todos.length<=0 && <div className="empty_prompt">
+                {todos && todos.length <= 0 && <div className="empty_prompt">
                     <h1>Let's get some work done</h1>
                 </div>}
                 <div className="todo_list">
@@ -82,7 +95,7 @@ const Home = () => {
                                                 <BsCircle className="checkmark" onClick={() => { toogleCheckedState(each) }} />
                                                 <p>{each.todo}</p>
                                             </div>
-                                            <div className="todo_del" onClick={()=>{deleteTodo(each)}}>
+                                            <div className="todo_del" onClick={() => { deleteTodo(each) }}>
                                                 <BsXLg />
                                             </div>
                                         </div>
@@ -105,7 +118,7 @@ const Home = () => {
                                                 <BsFillCheckCircleFill className="checkmark" onClick={() => { toogleCheckedState(each) }} />
                                                 <p>{each.todo}</p>
                                             </div>
-                                            <div className="todo_del" onClick={()=>{deleteTodo(each)}}>
+                                            <div className="todo_del" onClick={() => { deleteTodo(each) }}>
                                                 <BsXLg />
                                             </div>
                                         </div>
