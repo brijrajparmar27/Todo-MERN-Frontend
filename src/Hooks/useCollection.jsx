@@ -1,11 +1,15 @@
 import API from "../Axios/Axios";
+import useAuthContext from "./useAuthContext";
 const useCollection = (setTodos) => {
+    const {user} = useAuthContext();
+
     const fetchTodos = () => {
-        API.get("/todo/").then((data) => {
+        user && API.get(`/todo/${user._id}`).then((data) => {
             setTodos(data.data)
         })
     }
     const createTodo = (todo) => {
+        console.log(todo);
         API.post("/todo/", todo).then((data) => {
             // return data;
             fetchTodos();
@@ -18,8 +22,8 @@ const useCollection = (setTodos) => {
         })
     }
 
-    const deleteTodo = ({_id}) =>{
-        API.delete(`/todo/${_id}`).then(()=>{
+    const deleteTodo = ({ _id }) => {
+        API.delete(`/todo/${_id}`).then(() => {
             fetchTodos();
         })
     }

@@ -44,7 +44,7 @@ const Home = () => {
 
     const handleAdd = (e) => {
         e.preventDefault();
-        newTodo && newTodo.trim() && createTodo({ todo: newTodo })
+        newTodo && newTodo.trim() && createTodo({ todo: newTodo, createdBY: user._id })
         setNewTodo(null);
         e.target.reset();
     }
