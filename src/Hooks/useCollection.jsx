@@ -1,17 +1,16 @@
 import API from "../Axios/Axios";
 import useAuthContext from "./useAuthContext";
-const useCollection = (setTodos) => {
-    const {user} = useAuthContext();
+const useCollection = () => {
+    const { user, dispach, project } = useAuthContext();
 
     const fetchTodos = () => {
-        user && API.get(`/todo/${user._id}`).then((data) => {
-            setTodos(data.data)
+        user && API.get(`/todo/${user._id}/${project}`).then((data) => {
+            dispach({ type: "setTodos", payload: data.data })
         })
     }
     const createTodo = (todo) => {
         console.log(todo);
         API.post("/todo/", todo).then((data) => {
-            // return data;
             fetchTodos();
         })
     }
@@ -27,7 +26,15 @@ const useCollection = (setTodos) => {
             fetchTodos();
         })
     }
-    return { fetchTodos, createTodo, toogleTodo, deleteTodo }
+
+    const createProject = ({ _id, projects }) => {
+        API.patch("user/newproject", { _id, projects }).then(({data}) => {
+            console.log(data);
+            dispach({ type: "LOGIN", payload: data })
+        })
+    }
+
+    return { fetchTodos, createTodo, toogleTodo, deleteTodo, createProject }
 }
 
 export default useCollection;

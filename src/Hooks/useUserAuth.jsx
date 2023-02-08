@@ -11,8 +11,9 @@ const useUserAuth = (setError) => {
         axios.post("/user/login", {
             email, password
         }).then((res) => {
-            res.data.jwt && localStorage.setItem("user", JSON.stringify(res.data));
-            res.data.jwt && dispach({ type: "LOGIN", payload: res.data })
+            if (res.data.jwt) {
+                dispach({ type: "LOGIN", payload: res.data })
+            }
             res.data.message && setError(res.data);
             // return res
         }).catch((err) => {
@@ -24,8 +25,9 @@ const useUserAuth = (setError) => {
         axios.post("/user/signup", {
             email, password
         }).then((res) => {
-            res.data.jwt && localStorage.setItem("user", JSON.stringify(res.data));
-            res.data.jwt && dispach({ type: "LOGIN", payload: res.data })
+            if (res.data.jwt) {
+                dispach({ type: "LOGIN", payload: res.data })
+            }
             res.data.message && setError(res.data);
         }).catch((err) => {
             setError(err);
@@ -33,7 +35,6 @@ const useUserAuth = (setError) => {
     }
 
     const logout = () => {
-        localStorage.clear();
         dispach({ type: "LOGOUT", payload: null })
     }
 
