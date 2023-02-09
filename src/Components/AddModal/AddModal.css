@@ -1,38 +1,60 @@
 .addModal {
-    position: fixed;
-    height: 100vh;
-    width: 100vw;
-    background-color: rgba(0, 0, 0, 0.397);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 99;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.397);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
 }
 .modal {
-    height: 60vh;
-    width: 50vw;
-    background-color: white;
-    z-index: 100;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
+  height: 60vh;
+  width: 50vw;
+  background-color: white;
+  z-index: 100;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
 }
-.modal .modal_header{
-    display: flex;
-    /* justify-content: center; */
-    align-items: center;
-    flex: 2;
-    width: 100%;
+.modal .modal_header {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex: 2;
+  width: 100%;
 }
-.modal .todo_header{
-    width: 100%;
+.modal .todo_header {
+  width: 100%;
 }
-.modal_header .header_title{
-    flex: 1 !important;
+.modal_header .header_title {
+  flex: 1 !important;
 }
-.modal_header .todo_tb{
-    flex: 9 !important;
+.modal_header .todo_tb {
+  flex: 9 !important;
 }
-.modal .modal_body{
-    flex: 9;
+.modal .modal_body {
+  /* background-color: antiquewhite; */
+  display: flex;
+  flex-direction: column;
+  /* gap: 10px; */
+  flex: 9;
+  /* height: 100%; */
+  overflow-y: auto;
+}
+.modal .modal_body .project_card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 20px;
+  height: 60px;
+  border-radius: 10px;
+  margin: 5px;
+  cursor: pointer;
+}
+.modal .modal_body .project_card:hover {
+  background-color: #41d38342;
+}
+.modal .modal_body .project_card:has(.delete_project:hover) {
+  background-color: rgba(255, 0, 0, 0.219);
 }
