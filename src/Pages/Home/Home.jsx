@@ -2,16 +2,15 @@ import "./Home.css";
 import hills from "../../assets/hills.jpg";
 import { BsFillFolderFill, BsFillCheckCircleFill } from "react-icons/bs";
 import useCollection from "../../Hooks/useCollection";
-import { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { format } from "date-fns";
 import useAuthContext from "../../Hooks/useAuthContext";
-import { useNavigate } from "react-router-dom";
 import useUserAuth from "../../Hooks/useUserAuth";
-import Todo from "../../Components/Todo";
-import AddModal from "../../Components/AddModal/AddModal";
+// import AddModal from "../../Components/AddModal/AddModal";
+const AddModal = React.lazy(() => import("../../Components/AddModal/AddModal"));
+const Todo = React.lazy(() => import("../../Components/Todo"));
 
 const Home = () => {
-  // const [todos, setTodos] = useState();
   const [newTodo, setNewTodo] = useState();
   const [folderModal, setFolderModal] = useState(false);
 
@@ -23,8 +22,6 @@ const Home = () => {
   const { logout } = useUserAuth();
   const { user, todos, dispach, project } = useAuthContext();
   const [currentRoom, setCurrentRoom] = useState({ name: "default" });
-
-  const navigate = useNavigate();
 
   const getRoomName = () => {
     user &&
@@ -40,11 +37,11 @@ const Home = () => {
     getRoomName();
   }, [user, project]);
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/auth");
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (!user) {
+  //     navigate("/auth");
+  //   }
+  // }, [user]);
 
   useEffect(() => {
     todos &&
@@ -72,7 +69,9 @@ const Home = () => {
 
   return (
     <div className="home">
-      {folderModal && <AddModal setFolderModal={setFolderModal} />}
+      <Suspense fallback={<div></div>}>
+        {folderModal && <AddModal setFolderModal={setFolderModal} />}
+      </Suspense>
       <div
         className="header"
         style={{
